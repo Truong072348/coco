@@ -9,6 +9,8 @@ use App\Orders;
 use App\Products;
 use App\DetailsOrder;
 use App\Histories;
+use App\User;
+use Cloudder;
 
 class OrderController extends Controller
 {
@@ -16,8 +18,12 @@ class OrderController extends Controller
 	public function getOrder($orderid){
 		while(Orders::where('id', $orderid)->exists()) {
 			$order = Orders::where('id', $orderid)->first();
+            $user = User::where('id', $order->orders_user_id_foreign)->first();
+            $img = Cloudder::show('avatar/'.$user->url_images, array("width" => 250, "height" => 250, "crop" => "fill"));
+            $partner['name'] =  $user->name;
+            $partner['avatar'] = $img; 
 
-			return response()->json($order);
+			return response()->json(['order' => $order, 'partner' => $partner]);
 		}
 
 		return response()->json(['status' => false]);

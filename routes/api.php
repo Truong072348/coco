@@ -79,3 +79,11 @@ Route::post('cart-pay/{user}','api\CartController@cartPay');
 Route::put('cart-delete-item/{user}/{product}', 'api\CartController@cartDeleteItem');
 Route::put('cart-update-item/{user}/{product}', 'api\CartController@cartUpdateItem');
 
+Route::post('comment/{userId}/{productId}', 'api\CommentsController@saveComment');
+Route::get('province', 'api\ProvinceDistrictWardController@getProvince');
+Route::get('district-by-province/{provinceId}', 'api\ProvinceDistrictWardController@getDistrictByProvince');
+Route::get('ward-by-district/{districtId}', 'api\ProvinceDistrictWardController@getWardbyDistrict');
+// Route::resource('payment/{userId}', 'api\PaymentController');
+Route::post('payment/create', 'api\PaymentController@create')->name('payment.create');
+Route::get('districts', 'api\ProvinceDistrictWardController@getDistrict');
+
