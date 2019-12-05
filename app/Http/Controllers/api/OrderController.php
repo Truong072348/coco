@@ -91,15 +91,18 @@ class OrderController extends Controller
             $order = Orders::find($orderid);
             switch ($statusid) {
                 case '1':
-                    $order->status = 'Đang đóng gói';
+                    $order->status = 'Đang gửi hàng';
                     $order->update();
                     break;
-                case '2':
-                    $order->status = 'Đang vận chuyển';
+                 case '2':
+                    $order->status = 'Đã nhận hàng';
                     $order->update();
-                    break;
                 case '3':
-                    $order->status = 'Đã giao hàng';
+                    $order->status = 'Đã hủy';
+                    $order->update();
+                    break;
+                case '4':
+                    $order->status = 'Hoàn thành';
                     $order->update();
                     break;
                 

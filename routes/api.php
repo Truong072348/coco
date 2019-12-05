@@ -85,5 +85,6 @@ Route::get('district-by-province/{provinceId}', 'api\ProvinceDistrictWardControl
 Route::get('ward-by-district/{districtId}', 'api\ProvinceDistrictWardController@getWardbyDistrict');
 // Route::resource('payment/{userId}', 'api\PaymentController');
 Route::post('payment/create', 'api\PaymentController@create')->name('payment.create');
+
 Route::get('districts', 'api\ProvinceDistrictWardController@getDistrict');
 
