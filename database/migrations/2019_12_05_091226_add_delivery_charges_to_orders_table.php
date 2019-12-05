@@ -14,7 +14,7 @@ class AddDeliveryChargesToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->mediumText('delivery_charges');
+            $table->float('delivery_charges')->nullable();
         });
     }
 
