@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\api;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\registerRequest;
+use App\Http\Requests\userRequest;
+use App\Http\Requests\creatShopRequest;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Shops;
@@ -77,31 +80,8 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function register(registerRequest $request)
     {
-        $validator = Validator::make($request->all(),
-            [
-                'name' => 'required',
-                'email' => 'required|email',
-                'password' => 'required',
-                'c_password' => 'required|same:password',
-                'phone' => 'required|min:10'
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'error' => $validator->errors()
-                ], 400);
-        }
-
-        while (User::where('email', $request->email)->exists()) {
-            return response()->json(
-                [
-                    'error' => 'email really exists'
-                ], 400);
-        }
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
@@ -114,7 +94,9 @@ class UserController extends Controller
         $user->birthday = $input['birthday'];
         $user->sex = $input['sex'];
         $user->url_images = $input['sex'] == 0 ? 'nvTa3_female-define_jjhyfx' : 'male-define_ubnxt4';
+        // $user->remember_token = Str::random(60);
         $user->save();
+
 
         // $success['token'] = $user->createToken('MyApp')->accessToken;
         $success['name'] = $user->name;
@@ -142,26 +124,9 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function update(Request $request, $id){
+    public function update(userRequest $request, $id){
         $user = User::find($id);
         
-        $validator = Validator::make($request->all(),
-            [
-                'name' => 'required',
-                'phone' => 'required|min:10',
-                'address' => 'required',
-                'birthday' => 'required'
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'error' => $validator->errors()
-                ], 400);
-        }
-
-
         $input = $request->all();
         $user->name = $input['name'];
         $user->phone = $input['phone'];
@@ -194,13 +159,7 @@ class UserController extends Controller
         
     }
 
-    public function createShop($userid, Request $request){
-        $validator = Validator::make($request->all(),
-            [
-                'shop_name' => 'required',
-               
-            ]
-        );
+    public function createShop(creatShopRequest $request, $userid){
 
         while (Shops::where('shops_user_id_foreign', $userid)->exists()) {
             return response()->json(

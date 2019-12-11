@@ -50,8 +50,8 @@ class SearchController extends Controller
     	return response()->json($product);    
     }
 
-    public function searchByPrice(Request $request) {
+    // public function searchByPrice(Request $request) {
         
-    }
+    // }
 
 }

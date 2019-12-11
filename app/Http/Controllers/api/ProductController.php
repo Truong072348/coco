@@ -4,6 +4,9 @@ namespace App\Http\Controllers\api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\storeProductRequest;
+use App\Http\Requests\updateProductRequest;
+use Illuminate\Support\Facades\Gate;
 use Validator;
 use App\Products;
 use App\Images;
@@ -11,6 +14,7 @@ use App\Categories;
 use App\Types;
 use App\Orders;
 use App\Shops;
+use Auth;
 use Cloudder;
 
 class ProductController extends Controller
@@ -42,23 +46,7 @@ class ProductController extends Controller
         return response()->json(['status' => false]);
     }
 
-    public function store(Request $request){
-
-    	$validator = Validator::make($request->all(),
-            [
-                'product_name' => 'required|min:2|max:190',
-                'description' => 'required|min:10',
-                'price' => 'required|numeric',
-                'url' => 'required'
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'error' => $validator->errors()
-                ], 400);
-        }
+    public function store(storeProductRequest $request){
 
         $product = Products::create($request->all());
         $Images = new Images;
@@ -83,34 +71,27 @@ class ProductController extends Controller
     }
 	
 
-    public function update(Request $request, $id){
-    	$product = Products::find($id);
+    public function update(updateProductRequest $request, $id){
     	
-        $validator = Validator::make($request->all(),
-            [
-                'product_name' => 'required|min:2|max:190',
-                'price' => 'required|numeric',
-                'quantity' => 'required|numeric',
-                'description' => 'required|min:10'
-            ]
-        );
+        $product = Products::find($id);
+        // return Auth::user()->email;
+        
+ 
+        // $bool = Gate::allows('products-update', $userid);
+        // return response()->json($bool);
 
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'error' => $validator->errors()
-                ], 400);
+        if(empty($product)){
+            return response()->json(['status' => false]);
         }
 
-    	if(empty($product)){
-    		return response()->json(['status' => false]);
-    	}
 
+        $input = $request->all();
+        $product->update($input);
 
-    	$input = $request->all();
-    	$product->update($input);
+        return response()->json(['status'=>true]);
 
-    	return response()->json(['status'=>true]);
+       
+
     }
 
 

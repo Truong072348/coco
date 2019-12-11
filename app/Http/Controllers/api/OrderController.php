@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\storeOrderRequest;
 use Validator;
 use App\Orders;
 use App\Products;
@@ -63,20 +64,7 @@ class OrderController extends Controller
 		return response()->json(['status' => false]);
 	}
 
-    public function store(Request $request, $user){
-    	$validator = Validator::make($request->all(),
-            [
-                'adress' => 'required',
-                'costs'=>'required'
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'error' => $validator->errors()
-                ], 400);
-        }
+    public function store(storeOrderRequest $request, $user){
     	
         $order = new Orders;
         $order->orders_user_id_foreign = $user;

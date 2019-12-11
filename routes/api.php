@@ -30,8 +30,8 @@ Route::get('shop/{user}', 'api\UserController@getShop');
 
 Route::get('product','api\ProductController@index');
 Route::get('product/{id}','api\ProductController@show');
-Route::post('product','api\ProductController@store');
-Route::put('product/{id}','api\ProductController@update');
+Route::post('product','api\ProductController@store')->name('products.store');
+Route::put('product/{id}','api\ProductController@update')->name('products-update');
 Route::delete('product/{id}', 'api\ProductController@delete');
 Route::get('products-by-type/{type}', 'api\ProductController@getByType');
 Route::get('products-by-category/{category}', 'api\ProductController@getByCategory');
@@ -80,11 +80,17 @@ Route::put('cart-delete-item/{user}/{product}', 'api\CartController@cartDeleteIt
 Route::put('cart-update-item/{user}/{product}', 'api\CartController@cartUpdateItem');
 
 Route::post('comment/{userId}/{productId}', 'api\CommentsController@saveComment');
+Route::get('get-comment/{commentId}', 'api\CommentsController@getComment');
+Route::get('comment-by-product/{productID}', 'api\CommentsController@getCommentByProduct');
+Route::get('answer','api\CommentsController@getAnswer');
+Route::put('update-comment/{commentId}', 'api\CommentsController@updateComment');
+Route::delete('delete-comment/{commentId}', 'api\CommentsController@deleteComment');
+
 Route::get('province', 'api\ProvinceDistrictWardController@getProvince');
 Route::get('district-by-province/{provinceId}', 'api\ProvinceDistrictWardController@getDistrictByProvince');
 Route::get('ward-by-district/{districtId}', 'api\ProvinceDistrictWardController@getWardbyDistrict');
 // Route::resource('payment/{userId}', 'api\PaymentController');
 Route::post('payment/create', 'api\PaymentController@create')->name('payment.create');
 
-Route::get('districts', 'api\ProvinceDistrictWardController@getDistrict');
+// Route::get('districts', 'api\ProvinceDistrictWardController@getDistrict');
 
