@@ -50,7 +50,8 @@ class UserController extends Controller
                 [
                     'success' => 'successfully',
                     'userid' => $user->id,
-                    'shopID' => $shop->id
+                    'shopID' => $shop->id,
+                    'api_token' => $user->api_token
                 ],
                 200
                 
@@ -61,7 +62,8 @@ class UserController extends Controller
                 [
                     'success' => 'successfully',
                     'userid' => $user->id,
-                    'shopID' => 0
+                    'shopID' => 0,
+                    'api_token' => $user->api_token
                 ],
                 200
                 
@@ -94,7 +96,7 @@ class UserController extends Controller
         $user->birthday = $input['birthday'];
         $user->sex = $input['sex'];
         $user->url_images = $input['sex'] == 0 ? 'nvTa3_female-define_jjhyfx' : 'male-define_ubnxt4';
-        // $user->remember_token = Str::random(60);
+        $user->api_token = str_random(60);
         $user->save();
 
 
@@ -160,7 +162,7 @@ class UserController extends Controller
     }
 
     public function createShop(creatShopRequest $request, $userid){
-
+        
         while (Shops::where('shops_user_id_foreign', $userid)->exists()) {
             return response()->json(
                 [

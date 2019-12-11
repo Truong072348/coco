@@ -20,12 +20,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('login', 'api\UserController@login');
 Route::post('register', 'api\UserController@register');
+
+Route::group(['middleware' => 'auth:api'], function(){
+	Route::post('shop/{id}', 'api\UserController@createShop');
+	// Route::post('shop','api\UserController@shop');
+});
+
 Route::post('user/{id}', 'api\UserController@update');
 Route::get('user/{id}', 'api\UserController@getUser');
 Route::get('user', 'api\UserController@index');
 Route::post('user-avatar/{id}', 'api\UserController@updateAvatar');
-
-Route::post('shop/{id}', 'api\UserController@createShop')->middleware('auth');
 Route::get('shop/{user}', 'api\UserController@getShop');
 
 Route::get('product','api\ProductController@index');
