@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 class ProvinceDistrictWardController extends Controller
 {
     public function getProvince(){
-        $province_list = Districts::all();
+        $province_list = Districts::select('ProvinceName', 'ProvinceID')->groupBy('ProvinceName', 'ProvinceID')->get();
         if ($province_list->isEmpty()) {
             return response()->json(
                 ['error' => 'provinces are null']
