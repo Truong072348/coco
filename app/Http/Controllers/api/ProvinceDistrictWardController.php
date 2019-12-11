@@ -18,7 +18,7 @@ class ProvinceDistrictWardController extends Controller
     }
     public function getDistrictByProvince($provinceId) {
         while(Districts::where('ProvinceID', $provinceId)->exists()) {
-            $district_list = Districts::where('ProvinceID', $provinceId)->get();
+            $district_list = Districts::select('DistrictName', 'DistrictID')->where('ProvinceID', $provinceId)->groupBy('DistrictID', 'DistrictName')->get();
             $district_name_id_list = [];
             if ($district_list->isEmpty()) {
                 return response()->json(
@@ -36,8 +36,8 @@ class ProvinceDistrictWardController extends Controller
         return response()->json(['status' => false]);
     }
     public function getWardbyDistrict($districtId){
-        while(Districts::where('DistrictCode', $districtId)->exists()) {
-            $ward_list = Districts::where('DistrictCode', $districtId)->get();
+        while(Districts::where('DistrictID', $districtId)->exists()) {
+            $ward_list = Districts::select('WardName')->where('DistrictID', $districtId)->groupBy('WardName')->get();
             $district_name_list = [];
             if ($ward_list->isEmpty()) {
                 return response()->json(
@@ -53,6 +53,13 @@ class ProvinceDistrictWardController extends Controller
         }
 
         return response()->json(['status' => false]);
+    }
+
+    public function delete($id) {
+        $districts = Districts::find($id);
+        $districts->delete();
+
+        return response()->json(['status'=> true]);
     }
 
 

@@ -25,7 +25,7 @@ Route::get('user/{id}', 'api\UserController@getUser');
 Route::get('user', 'api\UserController@index');
 Route::post('user-avatar/{id}', 'api\UserController@updateAvatar');
 
-Route::post('shop/{id}', 'api\UserController@createShop');
+Route::post('shop/{id}', 'api\UserController@createShop')->middleware('auth');
 Route::get('shop/{user}', 'api\UserController@getShop');
 
 Route::get('product','api\ProductController@index');
@@ -89,6 +89,7 @@ Route::delete('delete-comment/{commentId}', 'api\CommentsController@deleteCommen
 
 Route::post('province','api\ProvinceDistrictWardController@store');
 Route::get('province', 'api\ProvinceDistrictWardController@getProvince');
+Route::delete('province/{id}','api\ProvinceDistrictWardController@delete');
 Route::get('district-by-province/{provinceId}', 'api\ProvinceDistrictWardController@getDistrictByProvince');
 Route::get('ward-by-district/{districtId}', 'api\ProvinceDistrictWardController@getWardbyDistrict');
 // Route::resource('payment/{userId}', 'api\PaymentController');
