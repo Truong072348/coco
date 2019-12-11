@@ -51,7 +51,7 @@ class ProvinceDistrictWardController extends Controller
             }
             return response()->json($district_name_list);
         }
-        
+
         return response()->json(['status' => false]);
     }
 
@@ -64,6 +64,12 @@ class ProvinceDistrictWardController extends Controller
         $response = json_decode($res->getBody(), true);
 
         return response()->json($response);
+    }
+
+    public function store(Request $request){
+        $dictricts = Districts::create($request->all());
+
+        return  response()->json($dictricts);
     }
 
     

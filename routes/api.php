@@ -86,6 +86,8 @@ Route::get('answer','api\CommentsController@getAnswer');
 Route::put('update-comment/{commentId}', 'api\CommentsController@updateComment');
 Route::delete('delete-comment/{commentId}', 'api\CommentsController@deleteComment');
 
+
+Route::post('province','api\ProvinceDistrictWardController@store');
 Route::get('province', 'api\ProvinceDistrictWardController@getProvince');
 Route::get('district-by-province/{provinceId}', 'api\ProvinceDistrictWardController@getDistrictByProvince');
 Route::get('ward-by-district/{districtId}', 'api\ProvinceDistrictWardController@getWardbyDistrict');
