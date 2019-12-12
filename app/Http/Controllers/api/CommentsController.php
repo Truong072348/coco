@@ -86,8 +86,16 @@ class CommentsController extends Controller
     public function getCommentByProduct($productid) {
         if (Comment::where('comments_product_id_foreign', $productid)->exists()) {
             $commentArr = Comment::where('comments_product_id_foreign', $productid)->where('level', '=', 1)->get();
+            foreach ($commentArr as $key) {
+                $user = User::find($key['comments_user_id_foreign']);
+                $key['user_name'] = $user->name;
+                $key['date'] = $key->created_at->format('d-m-Y');
+                $key['time'] = $key->created_at->format('h:i');  
+            }
+
             return response()->json($commentArr);
         }
+
         else {
             return response()->json(['status' => false]);
         }

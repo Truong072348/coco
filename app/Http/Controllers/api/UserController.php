@@ -88,6 +88,7 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         
+
         $user = new User;
         $user->name = $input['name'];
         $user->email = $input['email'];
@@ -95,13 +96,11 @@ class UserController extends Controller
         $user->phone = $input['phone'];
         $user->birthday = $input['birthday'];
         $user->sex = $input['sex'];
+        $user->address = $input['address'];
         $user->url_images = $input['sex'] == 0 ? 'nvTa3_female-define_jjhyfx' : 'male-define_ubnxt4';
         $user->api_token = str_random(60);
+        
         $user->save();
-
-
-        // $success['token'] = $user->createToken('MyApp')->accessToken;
-        $success['name'] = $user->name;
 
         return response()->json(
             [
