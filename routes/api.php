@@ -100,4 +100,5 @@ Route::get('ward-by-district/{districtId}', 'api\ProvinceDistrictWardController@
 Route::post('payment/create', 'api\PaymentController@create')->name('payment.create');
 
 // Route::get('districts', 'api\ProvinceDistrictWardController@getDistrict');
+Route::put('add-token/{userid}','api\UserController@addtoken');
 

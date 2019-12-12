@@ -190,4 +190,12 @@ class UserController extends Controller
     	
     	 return response()->json(['status' => false], 400);
     }
+
+    public function addtoken($userid) {
+        $user = User::find($userid);
+
+        $user->api_token = str_random(60);
+        $user->update();
+        return response()->json(['status' => true]);
+    }
 }
