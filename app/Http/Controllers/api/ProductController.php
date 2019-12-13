@@ -14,6 +14,7 @@ use App\Categories;
 use App\Types;
 use App\Orders;
 use App\Shops;
+use App\Comment;
 use Auth;
 use Cloudder;
 
@@ -97,7 +98,7 @@ class ProductController extends Controller
 
     public function delete($id) {
 
-    	while (Images::where('images_product_id_foreign', $id)->exists() && Orders::where('orders_user_id_foreign', $id)->exists()) {
+    	while (Images::where('images_product_id_foreign', $id)->exists() && Orders::where('orders_user_id_foreign', $id)->exists() || Comment::where('comments_product_id_foreign',$id)->exists()) {
             return response()->json(
                 [
                     'status' => false
